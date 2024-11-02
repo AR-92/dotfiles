@@ -156,7 +156,6 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -233,7 +232,18 @@ require("lazy").setup({
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 	},
-
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
+		"folke/zen-mode.nvim",
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
@@ -834,26 +844,21 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is.
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"folke/tokyonight.nvim",
-		priority = 1000, -- Make sure to load this before all the other start plugins.
-		init = function()
-			-- Load the colorscheme here.
-			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-night")
-
-			-- You can configure highlights by doing something like:
-			vim.cmd.hi("Comment gui=none")
+	{
+		"svrana/neosolarized.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("neosolarized").setup({
+				comment_italics = true,
+				background_set = false,
+			})
+			vim.cmd.colorscheme("neosolarized")
 		end,
-	},
-
-	-- Highlight todo, notes, etc in comments
+		dependencies = {
+			"tjdevries/colorbuddy.nvim",
+		},
+	}, -- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
